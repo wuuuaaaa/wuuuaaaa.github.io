@@ -15,27 +15,46 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 
     </head>
     <body>
         <div class="container-fluid">
+            <div class="dropdown d-flex justify-content-center position-relative z-3">
+                <div class="fs-3 position-absolute start-0 translate-middle ms-5 mt-4 text-white">
+                    KK 360
+                </div>
+            </div>
+            <div class="dropdown d-flex justify-content-center position-relative z-3">
+                <button id="btn360" class="btn btn-primary dropdown-toggle position-absolute start-50 translate-middle mt-4"
+                    type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Dropdown button
+                </button>
+                <ul id="360list" class="dropdown-menu">
+                </ul>
+            </div>
             <div class="row">
-                <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
-                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                      <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-                      <span class="fs-4">KK 360</span>
+                <!-- <div
+                    class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary"
+                    style="width: 280px;">
+                    <a href="/"
+                        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                        <svg class="bi pe-none me-2" width="40" height="32"><use
+                                xlink:href="#bootstrap"></use></svg>
+                        <span class="fs-4">KK 360</span>
                     </a>
                     <hr>
                     <ul id="mylist" class="nav nav-pills flex-column mb-auto">
                     </ul>
-                  </div>
+                </div> -->
 
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"> -->
                     <div id="viewer" class="d-flex"
                         style=" height: 100vh;"></div>
 
-                </main>
+                <!-- </main> -->
 
             </div>
         </div>
@@ -74,14 +93,19 @@
         
         (function() {
             let list = document.getElementById("mylist");
+            let list360 = document.getElementById("360list");
             for(const i of imglist) {
-                let html = `<li class="nav-item">
-                        <a href="#" class="nav-link view360" aria-current="page" data-image="${i.path}">
-                            ${i.text}
-                        </a>
-                      </li>`;
-                list.innerHTML += html;
+                // let html = `<li class="nav-item">
+                //         <a href="#" class="nav-link view360" aria-current="page" data-image="${i.path}">
+                //             ${i.text}
+                //         </a>
+                //       </li>`;
+                // list.innerHTML += html;
+                
+                let html = `<li><a class="dropdown-item view360" href="#" data-image="${i.path}">${i.text}</a></li>`;                
+                list360.innerHTML += html;
             }
+            $('#btn360').text(imglist[0].text);
             document.getElementsByClassName('view360')[0].classList.add("active")
         })();
         
@@ -103,6 +127,7 @@
             let img = $(this).data('image');
             viewer.setPanorama(img);
             $(this).addClass('active')
+            $('#btn360').text($(this).text());
         })
     </script>
 
