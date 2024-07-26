@@ -2,12 +2,44 @@
     <head>
         <!-- for optimal display on high DPI devices -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
+
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous">
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
     </head>
-    <bodY>
-        <div id="viewer" style="width: 100vw; height: 100vh;"></div>
-    </bodY>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                      <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                      <span class="fs-4">My 360</span>
+                    </a>
+                    <hr>
+                    <ul id="mylist" class="nav nav-pills flex-column mb-auto">
+                    </ul>
+                  </div>
+
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div id="viewer" class="d-flex"
+                        style=" height: 100vh;"></div>
+
+                </main>
+
+            </div>
+        </div>
+    </body>
 
     <script type="importmap">
         {
@@ -17,14 +49,58 @@
             }
         }
     </script>
-    
+
     <script type="module">
+        let imglist = [{
+                "text": "Living Room",
+                "path": "images/R0011760_20240724195049.JPG"
+            },{
+                "text": "Living Room (center)",
+                "path": "images/R0011771_20240724195506.JPG"
+            },{
+                "text": "Master Bedroom",
+                "path": "images/R0011787_20240724200003.JPG"
+            },{
+                "text": "Master Bedroom",
+                "path": "images/R0011795_20240724200210.JPG"
+            },{
+                "text": "Bedroom 1",
+                "path": "images/R0011807_20240724200827.JPG"
+            },{
+                "text": "Bedroom 2",
+                "path": "images/R0011816_20240724201110.JPG"
+            },
+        ];
+        
+        (function() {
+            let list = document.getElementById("mylist");
+            for(const i of imglist) {
+                let html = `<li class="nav-item">
+                        <a href="#" class="nav-link view360" aria-current="page" data-image="${i.path}">
+                            ${i.text}
+                        </a>
+                      </li>`;
+                list.innerHTML += html;
+            }
+            document.getElementsByClassName('view360')[0].classList.add("active")
+        })();
+        
+
         import { Viewer } from '@photo-sphere-viewer/core';
     
         const viewer = new Viewer({
             container: document.querySelector('#viewer'),
-            panorama: 'path/to/panorama.jpg',
+            panorama: imglist[0].path,
+            touchmoveTwoFingers: true,
+            defaultZoomLvl: 35,
         });
+
+        $('.view360').on('click', function() {
+            $('.view360').removeClass("active");
+            let img = $(this).data('image');
+            viewer.setPanorama(img);
+            $(this).addClass('active')
+        })
     </script>
 
 </html>
